@@ -23,12 +23,12 @@ Merci de prendre le temps de le lire et de s’y conformer.
 - Même si nous sommes peu nombreux, nous restons plus qu’un.
   Il faut donc quelques normalisations afin que le projet reste un minimum harmonieux.
 
-- ConDeReve a été pensé en [https://monorepo.tools/][4].
+- ConDeReve a été pensé en [monorepo][4].
   Il utilise entre autres les paquets suivants:
   - [yarn][5] manager de paquets
   - [nextjs][2] (front/) application web front front-end
 
-## Décisions
+## Decisions
 
 - Nous utilisons le twitch de [DevGirl\_][6] ainsi que les commits du repo ["L-avenir-de-Discord"][7] pour discuter
 
