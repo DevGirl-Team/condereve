@@ -16,5 +16,10 @@
   "devDependencies": {
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevGirl-Team/ConDeReve.git",
+    "directory": "front"
   }
 }
