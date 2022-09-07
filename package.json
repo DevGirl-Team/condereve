@@ -38,5 +38,6 @@
   },
   "workspaces": [
     "front"
-  ]
+  ],
+  "private": true
 }
