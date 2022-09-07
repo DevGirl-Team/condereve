@@ -1,21 +1,70 @@
+# @see https://github.com/Volta-Charging/yarn-circleci-monorepo/blob/38ea42c20a2df596621316bc2d73522a2bdc9984/.circleci/config.yml#L77-L103
+
 # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
 
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  node: circleci/node@4.7
+  node: circleci/node@5.0.2
+
+# Aliases
+aliases:
+  - &restore-build-flag
+      restore_cache:
+        keys:
+          - build-flag-{{ checksum "package.json" }}
+  - &generate-lock-file
+      run:
+        name: Generate lock file
+        command: yarn generate-lock-entry >> yarn.lock
+  - &restore-cache
+      restore_cache:
+        keys:
+          - dependencies-cache-{{ checksum "yarn.lock" }}
+  - &save-cache
+      save_cache:
+        paths:
+          - node_modules
+        key: dependencies-cache-{{ checksum "yarn.lock" }}
+
+# Commands
+commands:
+  node-build-front:
+    - checkout
+        path: ~/condereve
+    - *restore-build-flag
+    - *generate-lock-file
+    - *restore-cache
+    - run:
+        name: Build
+        command: |
+          yarn
+          yarn build
+          rm -rf src
+          yarn --production
+          yarn package
+    - *save-cache
+
+# Jobs
+jobs:
+  build-front:
+    docker:
+      - image: circleci/node:16
+    working_directory: ~/condereve/front
+    steps:
+      - node-build-front
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  front: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - node/test:
           # This is the node version to use for the `cimg/node` tag
           # Relevant tags can be found on the CircleCI Developer Hub
           # https://circleci.com/developer/images/image/cimg/node
-          version: '16.10'
+          version: "16.10"
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
