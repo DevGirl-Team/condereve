@@ -11,40 +11,39 @@ orbs:
 # Aliases
 aliases:
   - &restore-build-flag
-      restore_cache:
-        keys:
-          - build-flag-{{ checksum "package.json" }}
+    restore_cache:
+      keys:
+        - build-flag-{{ checksum "package.json" }}
   - &generate-lock-file
-      run:
-        name: Generate lock file
-        command: yarn generate-lock-entry >> yarn.lock
+    run:
+      name: Generate lock file
+      command: yarn generate-lock-entry >> yarn.lock
   - &restore-cache
-      restore_cache:
-        keys:
-          - dependencies-cache-{{ checksum "yarn.lock" }}
+    restore_cache:
+      keys:
+        - dependencies-cache-{{ checksum "yarn.lock" }}
   - &save-cache
-      save_cache:
-        paths:
-          - node_modules
-        key: dependencies-cache-{{ checksum "yarn.lock" }}
+    save_cache:
+      paths:
+        - node_modules
+      key: dependencies-cache-{{ checksum "yarn.lock" }}
 
 # Commands
 commands:
   node-build-front:
-    - checkout
-        path: ~/condereve
-    - *restore-build-flag
-    - *generate-lock-file
-    - *restore-cache
-    - run:
-        name: Build
-        command: |
-          yarn
-          yarn build
-          rm -rf src
-          yarn --production
-          yarn package
-    - *save-cache
+    steps:
+      - *restore-build-flag
+      - *generate-lock-file
+      - *restore-cache
+      - run:
+          name: Build
+          command: |
+            yarn
+            yarn build
+            rm -rf src
+            yarn --production
+            yarn package
+      - *save-cache
 
 # Jobs
 jobs:
