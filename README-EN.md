@@ -10,6 +10,7 @@ What if you could talk about your most disgraceful dreams anonymously?
 **ConDeReve** helps you doing it!
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![DevGirl-Team](https://circleci.com/gh/DevGirl-Team/condereve.svg?style=svg)](https://app.circleci.com/pipelines/github/DevGirl-Team/condereve)
 
 ## Requirements
 

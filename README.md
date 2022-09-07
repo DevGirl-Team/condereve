@@ -14,6 +14,7 @@
 > **ConDeReve** permet de receuillir ces fabuleuses aventures dans un site!
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![DevGirl-Team](https://circleci.com/gh/DevGirl-Team/condereve.svg?style=svg)](https://app.circleci.com/pipelines/github/DevGirl-Team/condereve)
 
 ## Requis
 
