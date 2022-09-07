@@ -29,7 +29,8 @@
     "prepare": "husky install",
     "commit": "cz",
     "f:lint": "yarn --cwd front lint",
-    "f:build": "yarn --cwd front build"
+    "f:build": "yarn --cwd front build",
+    "test": "yarn f:lint"
   },
   "config": {
     "commitizen": {
@@ -38,5 +39,6 @@
   },
   "workspaces": [
     "front"
-  ]
+  ],
+  "private": true
 }
