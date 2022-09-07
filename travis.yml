@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 14.13.1
+  - 16.0.0
+script:
+  - yarn
+  - yarn f:lint
+  - yarn f:build
+cache:
+  directories:
+    - $HOME/front/.cache/yarn
+    - front/node_modules
+    - front/.next/cache
