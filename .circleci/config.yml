@@ -53,6 +53,7 @@ jobs:
     working_directory: ~/condereve/front
     steps:
       - node-build-front
+      - run: npx semantic-release
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
