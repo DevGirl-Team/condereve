@@ -1,4 +1,6 @@
 module.exports = {
+  "repositoryUrl":"https://github.com/DevGirl-Team/ConDeReve.git",
+  "branches": ["main", "master", "next", "circle-ci"],
     plugins: [
       [
         '@semantic-release/commit-analyzer',
