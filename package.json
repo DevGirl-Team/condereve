@@ -1,6 +1,6 @@
 {
   "name": "condereve",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "main": "index.js",
   "repository": "https://github.com/DevGirl-Team/ConDeReve.git",
   "author": "DevGirl-Team <arriere.aride@gmail.com>",
@@ -34,7 +34,8 @@
     "commit": "cz",
     "f:lint": "yarn --cwd front lint",
     "f:build": "yarn --cwd front build",
-    "test": "yarn f:lint"
+    "test": "yarn f:lint",
+    "semantic-release": "semantic-release"
   },
   "config": {
     "commitizen": {
