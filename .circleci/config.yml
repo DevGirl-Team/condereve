@@ -16,14 +16,14 @@ commands:
           name: Build
           command: |
             yarn
-            yarn build
+            yarn f:build
             rm -rf src
 # Jobs
 jobs:
   build-front:
     docker:
       - image: circleci/node:16
-    working_directory: ~/condereve/front
+    working_directory: ~/condereve
     steps:
       - node-build-front
   release:
