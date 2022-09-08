@@ -59,7 +59,7 @@ jobs:
       - node/install-packages # Install and automatically cache packages
       # Run optional required steps before releasing
       - run: yarn f:build
-      - run: npx semantic-release
+      - run: npx semantic-release --yarn
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -75,11 +75,5 @@ workflows:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
       - release:
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
-          version: "16.10"
           requires:
             - node/test
-            # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: yarn
