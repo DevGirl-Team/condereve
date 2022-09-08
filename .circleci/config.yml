@@ -50,6 +50,10 @@ commands:
           name: Release
           command: |
             npx semantic-release
+     - name: Checkout repo
+          uses: actions/checkout@v3
+          with:
+            persist-credentials: false
 
 # Jobs
 jobs:
