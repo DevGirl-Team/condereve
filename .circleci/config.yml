@@ -15,8 +15,8 @@ commands:
       - run:
           name: Build
           command: |
-            npm i
-            npm run build
+            yarn
+            yarn build
             rm -rf src
 # Jobs
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - checkout
       - node/install-packages # Install and automatically cache packages
       # Run optional required steps before releasing
-      - run: npm run f:build
+      - run: yarn run f:build
       - run: npx semantic-release
 
 # Invoke jobs via workflows
@@ -48,7 +48,7 @@ workflows:
           # https://circleci.com/developer/images/image/cimg/node
           version: "16.10"
           # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: npm
+          pkg-manager: yarn
       - release:
           requires:
             - node/test
