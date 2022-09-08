@@ -62,7 +62,6 @@ jobs:
   build-semantic-release:
     docker:
       - image: circleci/node:16
-    working_directory: ~/condereve
     steps:
       - node-semantic-release
 
