@@ -44,17 +44,6 @@ commands:
             yarn --production
             yarn package
       - *save-cache
-  node-semantic-release:
-    steps:
-      - run:
-          name: Release
-          command: |
-            npx semantic-release
-     - name: Checkout repo
-          uses: actions/checkout@v3
-          with:
-            persist-credentials: false
-
 # Jobs
 jobs:
   build-front:
@@ -63,11 +52,14 @@ jobs:
     working_directory: ~/condereve/front
     steps:
       - node-build-front
-  build-semantic-release:
-    docker:
-      - image: circleci/node:16
+  release:
+    executor: node/default
     steps:
-      - node-semantic-release
+      - checkout
+      - node/install-packages # Install and automatically cache packages
+      # Run optional required steps before releasing
+      - run: yarn f:build
+      - run: npx semantic-release
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -75,7 +67,6 @@ workflows:
   front: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-semantic-release
       - node/test:
           # This is the node version to use for the `cimg/node` tag
           # Relevant tags can be found on the CircleCI Developer Hub
@@ -83,3 +74,6 @@ workflows:
           version: "16.10"
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
+      - release:
+          requires:
+            - node/test
