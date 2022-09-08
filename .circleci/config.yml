@@ -8,51 +8,31 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
-# Aliases
-aliases:
-  - &restore-build-flag
-    restore_cache:
-      keys:
-        - build-flag-{{ checksum "package.json" }}
-  - &generate-lock-file
-    run:
-      name: Generate lock file
-      command: yarn generate-lock-entry >> yarn.lock
-  - &restore-cache
-    restore_cache:
-      keys:
-        - dependencies-cache-{{ checksum "yarn.lock" }}
-  - &save-cache
-    save_cache:
-      paths:
-        - node_modules
-      key: dependencies-cache-{{ checksum "yarn.lock" }}
-
 # Commands
 commands:
   node-build-front:
     steps:
-      - *restore-build-flag
-      - *generate-lock-file
-      - *restore-cache
       - run:
           name: Build
           command: |
             yarn
-            yarn build
+            yarn f:build
             rm -rf src
-            yarn --production
-            yarn package
-      - *save-cache
-
 # Jobs
 jobs:
   build-front:
     docker:
       - image: circleci/node:16
-    working_directory: ~/condereve/front
+    working_directory: ~/condereve
     steps:
       - node-build-front
+  release:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages # Install and automatically cache packages
+      # Run optional required steps before releasing
+      - run: yarn run f:build
       - run: npx semantic-release
 
 # Invoke jobs via workflows
@@ -61,7 +41,6 @@ workflows:
   front: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-front
       - node/test:
           # This is the node version to use for the `cimg/node` tag
           # Relevant tags can be found on the CircleCI Developer Hub
@@ -69,3 +48,6 @@ workflows:
           version: "16.10"
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
+      - release:
+          requires:
+            - node/test

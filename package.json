@@ -1,6 +1,6 @@
 {
   "name": "condereve",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "main": "index.js",
   "repository": "https://github.com/DevGirl-Team/ConDeReve.git",
   "author": "DevGirl-Team <arriere.aride@gmail.com>",
@@ -8,7 +8,7 @@
   "engines": {
     "node": "^14.13.1 || >=16.0.0",
     "yarn": ">=1.22.0",
-    "npm": "please-use-yarn"
+    "npm": ">=7.12.0"
   },
   "packageManager": "yarn@4.0.0-rc.15",
   "dependencies": {
@@ -17,6 +17,7 @@
     "commitizen": "^4.2.5"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/github": "^8.0.6",
     "@semantic-release/release-notes-generator": "^10.0.3",
@@ -34,7 +35,8 @@
     "commit": "cz",
     "f:lint": "yarn --cwd front lint",
     "f:build": "yarn --cwd front build",
-    "test": "yarn f:lint"
+    "test": "yarn f:lint",
+    "semantic-release": "semantic-release"
   },
   "config": {
     "commitizen": {
