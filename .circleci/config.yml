@@ -8,42 +8,16 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
-# Aliases
-aliases:
-  - &restore-build-flag
-    restore_cache:
-      keys:
-        - build-flag-{{ checksum "package.json" }}
-  - &generate-lock-file
-    run:
-      name: Generate lock file
-      command: yarn generate-lock-entry >> yarn.lock
-  - &restore-cache
-    restore_cache:
-      keys:
-        - dependencies-cache-{{ checksum "yarn.lock" }}
-  - &save-cache
-    save_cache:
-      paths:
-        - node_modules
-      key: dependencies-cache-{{ checksum "yarn.lock" }}
-
 # Commands
 commands:
   node-build-front:
     steps:
-      - *restore-build-flag
-      - *generate-lock-file
-      - *restore-cache
       - run:
           name: Build
           command: |
-            yarn
-            yarn build
+            npm i
+            npm run build
             rm -rf src
-            yarn --production
-            yarn package
-      - *save-cache
 # Jobs
 jobs:
   build-front:
@@ -58,8 +32,8 @@ jobs:
       - checkout
       - node/install-packages # Install and automatically cache packages
       # Run optional required steps before releasing
-      - run: yarn f:build
-      - run: npx semantic-release --yarn
+      - run: npm run f:build
+      - run: npx semantic-release
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -67,13 +41,14 @@ workflows:
   front: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
+      - build-front
       - node/test:
           # This is the node version to use for the `cimg/node` tag
           # Relevant tags can be found on the CircleCI Developer Hub
           # https://circleci.com/developer/images/image/cimg/node
           version: "16.10"
           # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: yarn
+          pkg-manager: npm
       - release:
           requires:
             - node/test
